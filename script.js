@@ -1,81 +1,14 @@
 const inicioFecha = new Date("2025-12-10");
 
-// Función para iniciar la visualización del contenido
-function iniciar() {
-  const inicio = document.getElementById("inicio");
-  const contenido = document.getElementById("contenido");
-  
-  inicio.style.display = "none";
-  contenido.style.display = "block";
-
-  // Iniciar la música al entrar
-  actualizarReproductor(); 
-}
-
-/* TIMER */
-const y = document.getElementById("y"),
-      m = document.getElementById("m"),
-      d = document.getElementById("d"),
-      h = document.getElementById("h"),
-      min = document.getElementById("min"),
-      s = document.getElementById("s");
-
-setInterval(() => {
-  let diff = new Date() - inicioFecha;
-  let sec = Math.floor(diff / 1000);
-  let mi = Math.floor(sec / 60);
-  let ho = Math.floor(mi / 60);
-  let di = Math.floor(ho / 24);
-  y.textContent = Math.floor(di / 365);
-  di %= 365;
-  m.textContent = Math.floor(di / 30);
-  d.textContent = di % 30;
-  h.textContent = ho % 24;
-  min.textContent = mi % 60;
-  s.textContent = sec % 60;
-}, 1000);
-
-/* MUSICA REAL */
+// 1. Elementos de la interfaz
 const audio = document.getElementById("audio");
 const barra = document.getElementById("barra");
 const album = document.getElementById("album");
 const currentTimeDisplay = document.getElementById("currentTime");
 const durationTimeDisplay = document.getElementById("durationTime");
+const songNameDisplay = document.getElementById("songName");
 
-function playPause() {
-  if (audio.paused) {
-    audio.play().catch(e => console.log("Error al reproducir:", e));
-    album.style.animationPlayState = "running";
-  } else {
-    audio.pause();
-    album.style.animationPlayState = "paused";
-  }
-}
-
-audio.addEventListener("timeupdate", () => {
-  if (!isNaN(audio.duration)) {
-    barra.value = (audio.currentTime / audio.duration) * 100;
-    let currentMinutes = Math.floor(audio.currentTime / 60);
-    let currentSeconds = Math.floor(audio.currentTime % 60);
-    let durationMinutes = Math.floor(audio.duration / 60);
-    let durationSeconds = Math.floor(audio.duration % 60);
-
-    currentTimeDisplay.textContent = `${formatTime(currentMinutes)}:${formatTime(currentSeconds)}`;
-    durationTimeDisplay.textContent = `${formatTime(durationMinutes)}:${formatTime(durationSeconds)}`;
-  }
-});
-
-barra.addEventListener("input", () => {
-  if (!isNaN(audio.duration)) {
-    audio.currentTime = (barra.value / 100) * audio.duration;
-  }
-});
-
-function formatTime(time) {
-  return time < 10 ? `0${time}` : time;
-}
-
-/* LISTA DE CANCIONES (Cerrado correctamente) */
+// 2. Lista de canciones (Ruta relativa directa)
 const canciones = [
   { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
   { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
@@ -83,26 +16,38 @@ const canciones = [
   { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
   { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
   { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
-  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" },
+  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" }
 ];
 
 let indiceCancion = 0;
 
+// 3. Funciones de Control
 function actualizarReproductor() {
   audio.pause();
   audio.src = canciones[indiceCancion].src;
-  document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
+  songNameDisplay.textContent = canciones[indiceCancion].nombre;
   
-  audio.load(); 
-
+  audio.load();
   audio.oncanplay = () => {
-    audio.play().catch(e => console.log("Esperando clic..."));
+    audio.play().catch(() => console.log("Esperando interacción..."));
     album.style.animationPlayState = "running";
   };
+}
 
-  audio.onerror = () => {
-    console.error("No se pudo cargar: " + audio.src);
-  };
+function iniciar() {
+  document.getElementById("inicio").style.display = "none";
+  document.getElementById("contenido").style.display = "block";
+  actualizarReproductor(); 
+}
+
+function playPause() {
+  if (audio.paused) {
+    audio.play();
+    album.style.animationPlayState = "running";
+  } else {
+    audio.pause();
+    album.style.animationPlayState = "paused";
+  }
 }
 
 function cambiarCancionAdelante() {
@@ -115,52 +60,36 @@ function cambiarCancionAtras() {
   actualizarReproductor();
 }
 
-/* CONTROL DE CILINDRO FOTOS */
-let rot = 0, start = 0, drag = false;
-const cil = document.getElementById("cilindro");
-const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
+// 4. Eventos
+audio.addEventListener("timeupdate", () => {
+  if (!isNaN(audio.duration)) {
+    barra.value = (audio.currentTime / audio.duration) * 100;
+    let curM = Math.floor(audio.currentTime / 60);
+    let curS = Math.floor(audio.currentTime % 60);
+    let durM = Math.floor(audio.duration / 60);
+    let durS = Math.floor(audio.duration % 60);
+    currentTimeDisplay.textContent = `${curM}:${curS < 10 ? '0'+curS : curS}`;
+    durationTimeDisplay.textContent = `${durM}:${durS < 10 ? '0'+durS : durS}`;
+  }
+});
 
-if (isTouchDevice) {
-  cil.addEventListener("touchstart", e => {
-    drag = true;
-    start = e.touches[0].clientX;
-  });
-  cil.addEventListener("touchmove", e => {
-    if (!drag) return;
-    rot += (e.touches[0].clientX - start) * 0.4;
-    cil.style.transform = `rotateY(${rot}deg)`;
-    start = e.touches[0].clientX;
-  });
-  document.addEventListener("touchend", () => drag = false);
-} else {
-  cil.addEventListener("mousedown", e => {
-    drag = true;
-    start = e.clientX;
-  });
-  document.addEventListener("mouseup", () => drag = false);
-  document.addEventListener("mousemove", e => {
-    if (!drag) return;
-    rot += (e.clientX - start) * 0.4;
-    cil.style.transform = `rotateY(${rot}deg)`;
-    start = e.clientX;
-  });
-}
+barra.addEventListener("input", () => {
+  audio.currentTime = (barra.value / 100) * audio.duration;
+});
 
-/* CORAZONES FLOTANTES */
+// 5. Contador de tiempo
 setInterval(() => {
-  let c = document.createElement("div");
-  c.className = "corazon-flotante";
-  c.innerHTML = "❤️";
-  c.style.left = Math.random() * 100 + "vw";
-  c.style.fontSize = 15 + Math.random() * 25 + "px";
-  document.body.appendChild(c);
-  setTimeout(() => c.remove(), 6000);
-}, 400);
+  let diff = new Date() - inicioFecha;
+  let sec = Math.floor(diff / 1000);
+  document.getElementById("y").textContent = Math.floor(sec / (3600 * 24 * 365));
+  document.getElementById("d").textContent = Math.floor((sec / (3600 * 24)) % 365);
+  document.getElementById("h").textContent = Math.floor((sec / 3600) % 24);
+  document.getElementById("min").textContent = Math.floor((sec / 60) % 60);
+  document.getElementById("s").textContent = sec % 60;
+}, 1000);
 
-/* CARTA */
 function abrirCarta() {
-  const carta = document.querySelector(".carta");
-  carta.classList.toggle("open");
+  document.querySelector(".carta").classList.toggle("open");
 }
 
 
