@@ -69,13 +69,13 @@ function formatTime(time) {
 
 /* Cambiar canción */
 const canciones = [
-  { nombre: "Reik - Pero Te Conocí", src: "music/Reik.mp3" },
-  { nombre: "Eres Tú - Matisse, Reik", src: "music/Eres Tu.mp3" },
-  { nombre: "Carlos Rivera - Solo Tú", src: "music/Solo Tu.mp3" },
-  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/Llegaste tu.mp3" },
-    { nombre: "Ed Sheeran - Perfect", src: "music/Perfect.mp3" },
-  { nombre: "Yung Kai - Blue", src: "music/Blue.mp3" },
-  { nombre: "Ed Sheeran - Photograph ", src: "music/Photograph.mp3" },
+  { nombre: "Reik - Pero Te Conocí", src: "https://drive.google.com/file/d/1LKd_lT8slEVh9OzuZtQLA6JKiNbB8D3d/view?usp=sharing" },
+  { nombre: "Eres Tú - Matisse, Reik", src: "https://drive.google.com/file/d/15I0KS8uUSEmPXC55HxE8cVrG85Y2CSKi/view?usp=sharing" },
+  { nombre: "Carlos Rivera - Solo Tú", src: "https://drive.google.com/file/d/1mgoTA26uxm4pDUigjBBiM90MsYamaZeC/view?usp=sharing" },
+  { nombre: "Luis Fonsi - Llegaste Tú", src: "https://drive.google.com/file/d/18p6H0yZkyPvFVNOJGBEXVt--CTtTif2e/view?usp=sharing" },
+    { nombre: "Ed Sheeran - Perfect", src: "https://drive.google.com/file/d/1nsHEZbglpnx_OzQQNjNy27tLIShNQaDi/view?usp=sharing" },
+  { nombre: "Yung Kai - Blue", src: "https://drive.google.com/file/d/1ISQIEwjJfIuyFGkWryNUCLn8LpELGltY/view?usp=sharing" },
+  { nombre: "Ed Sheeran - Photograph ", src: "https://drive.google.com/file/d/1_R9qM0hS_WYoQeALYneLQGVYXft6-WlD/view?usp=sharing" },
   // Agrega más canciones aquí
 ];
 
@@ -158,3 +158,4 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
