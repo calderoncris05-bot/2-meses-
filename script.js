@@ -77,13 +77,13 @@ function formatTime(time) {
 
 /* LISTA DE CANCIONES */
 const canciones = [
-  { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
-  { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
-  { nombre: "Carlos Rivera - Solo Tú", src: "music/solo-tu.mp3" },
-  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
-  { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
-  { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
-  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" },
+  { nombre: "Reik - Pero Te Conocí", src: "./music/reik.mp3" },
+  { nombre: "Eres Tú - Matisse, Reik", src: "./music/eres-tu.mp3" },
+  { nombre: "Carlos Rivera - Solo Tú", src: "./music/solo-tu.mp3" },
+  { nombre: "Luis Fonsi - Llegaste Tú", src: "./music/llegaste-tu.mp3" },
+  { nombre: "Ed Sheeran - Perfect", src: "./music/perfecto.mp3" },
+  { nombre: "Yung Kai - Blue", src: "./music/azul.mp3" },
+  { nombre: "Ed Sheeran - Photograph", src: "./music/fotografia.mp3" },
 ];
 
 let indiceCancion = 0;
@@ -165,6 +165,7 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
 
 
 
