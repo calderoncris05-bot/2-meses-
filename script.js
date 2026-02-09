@@ -8,7 +8,7 @@ function iniciar() {
   inicio.style.display = "none";
   contenido.style.display = "block";
 
-  // CORRECCIÓN 1: Forzar la carga al iniciar
+  // Iniciar la música al entrar
   actualizarReproductor(); 
 }
 
@@ -75,7 +75,7 @@ function formatTime(time) {
   return time < 10 ? `0${time}` : time;
 }
 
-/* LISTA DE CANCIONES 
+/* LISTA DE CANCIONES (Cerrado correctamente) */
 const canciones = [
   { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
   { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
@@ -88,23 +88,20 @@ const canciones = [
 
 let indiceCancion = 0;
 
-// CORRECCIÓN 2: Manejo robusto de la carga de audio
 function actualizarReproductor() {
   audio.pause();
   audio.src = canciones[indiceCancion].src;
   document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
   
-  audio.load(); // Fuerza al navegador a buscar el archivo nuevo
+  audio.load(); 
 
-  // Solo dar play cuando el archivo esté listo para evitar el error de "no supported sources"
   audio.oncanplay = () => {
-    audio.play().catch(e => console.log("Esperando interacción..."));
+    audio.play().catch(e => console.log("Esperando clic..."));
     album.style.animationPlayState = "running";
   };
 
-  // CORRECCIÓN 3: Si hay error de ruta, avisar en consola
   audio.onerror = () => {
-    console.error("No se pudo cargar: " + audio.src + ". Revisa si el nombre en GitHub es idéntico.");
+    console.error("No se pudo cargar: " + audio.src);
   };
 }
 
@@ -165,6 +162,7 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
 
 
 
