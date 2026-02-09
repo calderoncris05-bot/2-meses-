@@ -69,13 +69,13 @@ function formatTime(time) {
 
 /* Cambiar canción */
 const canciones = [
-  { nombre: "Reik - Pero Te Conocí", src: "https://drive.google.com/file/d/1LKd_lT8slEVh9OzuZtQLA6JKiNbB8D3d/view?usp=sharing" },
-  { nombre: "Eres Tú - Matisse, Reik", src: "https://drive.google.com/file/d/15I0KS8uUSEmPXC55HxE8cVrG85Y2CSKi/view?usp=sharing" },
-  { nombre: "Carlos Rivera - Solo Tú", src: "https://drive.google.com/file/d/1mgoTA26uxm4pDUigjBBiM90MsYamaZeC/view?usp=sharing" },
-  { nombre: "Luis Fonsi - Llegaste Tú", src: "https://drive.google.com/file/d/18p6H0yZkyPvFVNOJGBEXVt--CTtTif2e/view?usp=sharing" },
-    { nombre: "Ed Sheeran - Perfect", src: "https://drive.google.com/file/d/1nsHEZbglpnx_OzQQNjNy27tLIShNQaDi/view?usp=sharing" },
-  { nombre: "Yung Kai - Blue", src: "https://drive.google.com/file/d/1ISQIEwjJfIuyFGkWryNUCLn8LpELGltY/view?usp=sharing" },
-  { nombre: "Ed Sheeran - Photograph ", src: "https://drive.google.com/file/d/1_R9qM0hS_WYoQeALYneLQGVYXft6-WlD/view?usp=sharing" },
+  { nombre: "Reik - Pero Te Conocí", src: "https://drive.google.com/uc?export=download&id=1LKd_lT8slEVh9OzuZtQLA6JKiNbB8D3d" },
+  { nombre: "Eres Tú - Matisse, Reik", src: "https://drive.google.com/uc?export=download&id=15I0KS8uUSEmPXC55HxE8cVrG85Y2CSKi" },
+  { nombre: "Carlos Rivera - Solo Tú", src: "https://drive.google.com/uc?export=download&id=1mgoTA26uxm4pDUigjBBiM90MsYamaZeC" },
+  { nombre: "Luis Fonsi - Llegaste Tú", src: "https://drive.google.com/uc?export=download&id=18p6H0yZkyPvFVNOJGBEXVt--CTtTif2e" },
+  { nombre: "Ed Sheeran - Perfect", src: "https://drive.google.com/uc?export=download&id=1nsHEZbglpnx_OzQQNjNy27tLIShNQaDi" },
+  { nombre: "Yung Kai - Blue", src: "https://drive.google.com/uc?export=download&id=1ISQIEwjJfIuyFGkWryNUCLn8LpELGltY" },
+  { nombre: "Ed Sheeran - Photograph ", src: "https://drive.google.com/uc?export=download&id=1_R9qM0hS_WYoQeALYneLQGVYXft6-WlD" },
   // Agrega más canciones aquí
 ];
 
@@ -158,4 +158,5 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
 
