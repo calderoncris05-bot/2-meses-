@@ -1,6 +1,6 @@
 const inicioFecha = new Date("2025-12-10");
 
-// 1. Elementos de la interfaz
+/* ELEMENTOS DEL REPRODUCTOR */
 const audio = document.getElementById("audio");
 const barra = document.getElementById("barra");
 const album = document.getElementById("album");
@@ -8,7 +8,7 @@ const currentTimeDisplay = document.getElementById("currentTime");
 const durationTimeDisplay = document.getElementById("durationTime");
 const songNameDisplay = document.getElementById("songName");
 
-// 2. Lista de canciones (Ruta relativa directa)
+/* LISTA DE CANCIONES (Ruta relativa directa) */
 const canciones = [
   { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
   { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
@@ -21,15 +21,20 @@ const canciones = [
 
 let indiceCancion = 0;
 
-// 3. Funciones de Control
+/* FUNCIONES PRINCIPALES */
 function actualizarReproductor() {
+  if (!audio) return;
+  
   audio.pause();
-  audio.src = canciones[indiceCancion].src;
+  // El truco: Usar "./" asegura que busque dentro de la carpeta actual del proyecto
+  audio.src = "./" + canciones[indiceCancion].src;
   songNameDisplay.textContent = canciones[indiceCancion].nombre;
   
   audio.load();
+  
+  // Intentar reproducir automáticamente tras cargar
   audio.oncanplay = () => {
-    audio.play().catch(() => console.log("Esperando interacción..."));
+    audio.play().catch(() => console.log("Clic para sonar..."));
     album.style.animationPlayState = "running";
   };
 }
@@ -37,7 +42,7 @@ function actualizarReproductor() {
 function iniciar() {
   document.getElementById("inicio").style.display = "none";
   document.getElementById("contenido").style.display = "block";
-  actualizarReproductor(); 
+  actualizarReproductor();
 }
 
 function playPause() {
@@ -60,7 +65,7 @@ function cambiarCancionAtras() {
   actualizarReproductor();
 }
 
-// 4. Eventos
+/* ACTUALIZACIÓN DE BARRA Y TIEMPO */
 audio.addEventListener("timeupdate", () => {
   if (!isNaN(audio.duration)) {
     barra.value = (audio.currentTime / audio.duration) * 100;
@@ -68,8 +73,8 @@ audio.addEventListener("timeupdate", () => {
     let curS = Math.floor(audio.currentTime % 60);
     let durM = Math.floor(audio.duration / 60);
     let durS = Math.floor(audio.duration % 60);
-    currentTimeDisplay.textContent = `${curM}:${curS < 10 ? '0'+curS : curS}`;
-    durationTimeDisplay.textContent = `${durM}:${durS < 10 ? '0'+durS : durS}`;
+    currentTimeDisplay.textContent = `${curM}:${curS < 10 ? '0' + curS : curS}`;
+    durationTimeDisplay.textContent = `${durM}:${durS < 10 ? '0' + durS : durS}`;
   }
 });
 
@@ -77,7 +82,7 @@ barra.addEventListener("input", () => {
   audio.currentTime = (barra.value / 100) * audio.duration;
 });
 
-// 5. Contador de tiempo
+/* CONTADOR DE TIEMPO (ANIVERSARIO) */
 setInterval(() => {
   let diff = new Date() - inicioFecha;
   let sec = Math.floor(diff / 1000);
@@ -88,9 +93,11 @@ setInterval(() => {
   document.getElementById("s").textContent = sec % 60;
 }, 1000);
 
+/* CARTA */
 function abrirCarta() {
   document.querySelector(".carta").classList.toggle("open");
 }
+
 
 
 
