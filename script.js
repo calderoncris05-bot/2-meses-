@@ -78,15 +78,15 @@ function formatTime(time) {
   return time < 10 ? `0${time}` : time;
 }
 
-/* LISTA DE CANCIONES (Rutas corregidas para tu carpeta music) */
+/* LISTA DE CANCIONES (Nombres simplificados para evitar errores) */
 const canciones = [
-  { nombre: "Reik - Pero Te Conocí", src: "music/Reik.mp3" },
-  { nombre: "Eres Tú - Matisse, Reik", src: "music/Eres Tu.mp3" },
-  { nombre: "Carlos Rivera - Solo Tú", src: "music/Solo Tu.mp3" },
-  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/Llegaste tu.mp3" },
-  { nombre: "Ed Sheeran - Perfect", src: "music/Perfect.mp3" },
-  { nombre: "Yung Kai - Blue", src: "music/Blue.mp3" },
-  { nombre: "Ed Sheeran - Photograph ", src: "music/Photograph.mp3" },
+  { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
+  { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
+  { nombre: "Carlos Rivera - Solo Tú", src: "music/solo-tu.mp3" },
+  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
+  { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
+  { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
+  { nombre: "Ed Sheeran - Photograph ", src: "music/fotografia.mp3" },
 ];
 
 let indiceCancion = 0;
@@ -155,6 +155,7 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
 
 
 
