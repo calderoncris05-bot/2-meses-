@@ -27,6 +27,8 @@ body {
   align-items: center;
   background: radial-gradient(circle, #ff5fa2, #12000a 70%);
   flex-direction: column;
+  text-align: center;
+  cursor: pointer;
 }
 .corazon {
   font-size: 160px;
@@ -41,7 +43,6 @@ body {
   color: white;
   font-size: 1.6em;
   margin-top: 25px;
-  text-align: center;
 }
 
 /* CONTENIDO */
@@ -130,7 +131,6 @@ button {
   object-fit: cover;
   box-shadow: 0 5px 12px rgba(0, 0, 0, .4);
 }
-
 .cilindro img:nth-child(1) { transform: rotateY(0deg) translateZ(200px); }
 .cilindro img:nth-child(2) { transform: rotateY(60deg) translateZ(200px); }
 .cilindro img:nth-child(3) { transform: rotateY(120deg) translateZ(200px); }
@@ -144,37 +144,24 @@ button {
   color: #a80046;
 }
 
-/* ===================== */
-/* RESPONSIVE MÓVIL       */
-/* ===================== */
 @media screen and (max-width: 480px) {
-  body {
-    font-size: 14px;
-  }
-
   /* INTRO */
   #inicio {
-    flex-direction: column;
+    height: 120vh;  /* más alto para llenar la pantalla */
     padding: 20px;
   }
   .corazon {
-    font-size: 100px;
+    font-size: 140px; /* corazón más grande */
   }
   .texto {
-    font-size: 1.2em;
-    margin-top: 15px;
-    text-align: center;
-  }
-
-  /* CONTENIDO */
-  #contenido {
-    padding: 15px;
+    font-size: 1.5em; /* texto más visible */
+    margin-top: 20px;
   }
 
   /* CARD */
   .card {
     max-width: 90%;
-    padding: 15px;
+    padding: 20px;
     margin: 20px auto;
   }
 
@@ -218,9 +205,16 @@ button {
   }
 }
 
-@media screen and (max-width: 768px) {
-  .grid {
-    grid-template-columns: repeat(3, 1fr);
+@media screen and (min-width: 481px) and (max-width: 768px) {
+  #inicio {
+    height: 110vh;
+    padding: 20px;
+  }
+  .corazon {
+    font-size: 150px;
+  }
+  .texto {
+    font-size: 1.55em;
   }
   .album {
     width: 120px;
@@ -228,18 +222,6 @@ button {
   }
 }
 
-@media screen and (max-width: 480px) {
-  #inicio {
-    height: 120vh; /* un poco más alto para llenar la pantalla */
-  }
-  .corazon {
-    font-size: 140px; /* más grande en móviles */
-  }
-  .texto {
-    font-size: 1.5em; /* texto más visible */
-    margin-top: 20px;
-  }
-}
 
 
 
