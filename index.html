@@ -3,16 +3,226 @@
 <head>
   <meta charset="UTF-8">
   <title>Para Mi Amor ❤️</title>
-  <link rel="stylesheet" href="css/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(#ffd1dc, #ff9eb5);
+      overflow-x: hidden;
+    }
+
+    /* CORAZONES */
+    .corazon-flotante {
+      position: fixed;
+      bottom: -20px;
+      animation: subir 6s linear infinite;
+      opacity: .7;
+    }
+    @keyframes subir {
+      to {
+        transform: translateY(-110vh);
+        opacity: 0;
+      }
+    }
+
+    /* INTRO */
+    #inicio {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #ff5fa2, #12000a 70%);
+      flex-direction: column;
+      text-align: center;
+      cursor: pointer;
+    }
+    .corazon {
+      font-size: 160px;
+      animation: latido 1.4s infinite;
+    }
+    @keyframes latido {
+      50% { transform: scale(1.5); }
+    }
+    .texto {
+      color: white;
+      font-size: 1.6em;
+      margin-top: 25px;
+    }
+
+    /* CONTENIDO */
+    #contenido {
+      display: none;
+      padding: 25px;
+    }
+
+    .card {
+      background: #ffeaf0;
+      border: 3px dashed #ff5f9e;
+      border-radius: 25px;
+      padding: 25px;
+      max-width: 360px;
+      margin: 30px auto;
+      text-align: center;
+      color: #b4004e;
+    }
+
+    /* TIMER */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .caja {
+      background: white;
+      border-radius: 15px;
+      padding: 10px;
+      font-weight: bold;
+    }
+
+    /* MUSICA */
+    .album {
+      width: 130px;
+      height: 130px;
+      margin: 10px auto;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 5px solid #ff5f9e;
+      animation: rotar 8s linear infinite;
+      animation-play-state: paused;
+    }
+    .album img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    @keyframes rotar {
+      to { transform: rotate(360deg); }
+    }
+
+    #barra {
+      width: 100%;
+      accent-color: #ff5f9e;
+    }
+    button {
+      background: #ff5f9e;
+      border: none;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* CILINDRO */
+    .escena {
+      display: flex;
+      justify-content: center;
+      perspective: 900px;
+    }
+    .cilindro {
+      position: relative;
+      width: 140px;
+      height: 180px;
+      transform-style: preserve-3d;
+    }
+    .cilindro img {
+      position: absolute;
+      width: 120px;
+      height: 160px;
+      border-radius: 15px;
+      object-fit: cover;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, .4);
+    }
+    .cilindro img:nth-child(1) { transform: rotateY(0deg) translateZ(200px); }
+    .cilindro img:nth-child(2) { transform: rotateY(60deg) translateZ(200px); }
+    .cilindro img:nth-child(3) { transform: rotateY(120deg) translateZ(200px); }
+    .cilindro img:nth-child(4) { transform: rotateY(180deg) translateZ(200px); }
+    .cilindro img:nth-child(5) { transform: rotateY(240deg) translateZ(200px); }
+    .cilindro img:nth-child(6) { transform: rotateY(300deg) translateZ(200px); }
+
+    /* CARTA */
+    .carta {
+      line-height: 1.5;
+      color: #a80046;
+    }
+
+    /* ===================== */
+    /* RESPONSIVE MÓVIL       */
+    /* ===================== */
+    @media screen and (max-width: 480px) {
+      #inicio {
+        height: 120vh;  
+        padding: 20px;
+      }
+      .corazon {
+        font-size: 140px; 
+      }
+      .texto {
+        font-size: 1.5em; 
+        margin-top: 20px;
+      }
+      .card {
+        max-width: 90%;
+        padding: 20px;
+        margin: 20px auto;
+      }
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+      }
+      .caja {
+        padding: 8px;
+        font-size: 14px;
+      }
+      .album {
+        width: 100px;
+        height: 100px;
+      }
+      button {
+        font-size: 16px;
+        padding: 8px 16px;
+      }
+      .escena {
+        perspective: 600px;
+      }
+      .cilindro {
+        width: 100px;
+        height: 130px;
+      }
+      .cilindro img {
+        width: 90px;
+        height: 120px;
+      }
+      .carta {
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    }
+
+    @media screen and (min-width: 481px) and (max-width: 768px) {
+      #inicio {
+        height: 110vh;
+        padding: 20px;
+      }
+      .corazon {
+        font-size: 150px;
+      }
+      .texto {
+        font-size: 1.55em;
+      }
+      .album {
+        width: 120px;
+        height: 120px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
 <div id="inicio" onclick="iniciar()">
-  <div style="text-align:center">
-    <div class="corazon">❤️</div>
-    <div class="texto">Toca para iniciar</div>
-  </div>
+  <div class="corazon">❤️</div>
+  <div class="texto">Toca para iniciar</div>
 </div>
 
 <div id="contenido">
@@ -76,6 +286,7 @@
 
 </body>
 </html>
+
 
 
 
