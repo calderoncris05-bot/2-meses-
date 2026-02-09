@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Para Mi Amor ❤️</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div id="inicio" onclick="iniciar()">
+  <div style="text-align:center">
+    <div class="corazon">❤️</div>
+    <div class="texto">Toca para iniciar</div>
+  </div>
+</div>
+
+<div id="contenido">
+
+  <!-- TIMER -->
+  <div class="card">
+    <h2>Nuestro tiempo juntos 💕</h2>
+    <div class="grid">
+      <div class="caja"><span id="y">0</span><br>AÑOS</div>
+      <div class="caja"><span id="m">0</span><br>MESES</div>
+      <div class="caja"><span id="d">0</span><br>DÍAS</div>
+      <div class="caja"><span id="h">0</span><br>HORAS</div>
+      <div class="caja"><span id="min">0</span><br>MIN</div>
+      <div class="caja"><span id="s">0</span><br>SEG</div>
+    </div>
+  </div>
+
+  <!-- MUSICA -->
+  <div class="card">
+    <h2>Nuestra canción 🎶</h2>
+    <div class="album" id="album">
+        <img src="images/foto1.jpg">
+    </div>
+    <input type="range" id="barra" value="0">
+    <button onclick="cambiarCancionAtras()">⏮️</button> 
+    <button onclick="playPause()">⏯️</button>
+    <button onclick="cambiarCancionAdelante()">⏭️</button> 
+    <audio id="audio" src="music/Reik.mp3"></audio>
+    <div id="timeDisplay">
+        <span id="currentTime">00:00</span> / <span id="durationTime">00:00</span>
+    </div>
+    <div id="songName">Reik - Pero Te Conocí</div> 
+  </div>
+
+  <!-- RECUERDOS -->
+  <div class="card">
+    <h2>Nuestros recuerdos 📸</h2>
+    <div class="escena">
+      <div class="cilindro" id="cilindro">
+        <img src="images/foto2.jpeg">
+        <img src="images/foto3.jpeg">
+        <img src="images/foto4.jpeg">
+        <img src="images/foto5.jpeg">
+        <img src="images/foto6.jpeg">
+        <img src="images/foto7.jpeg">
+      </div>
+    </div>
+  </div>
+
+  <!-- CARTA -->
+  <div class="card carta" onclick="abrirCarta()">
+    <h2>Mi amor 💖</h2>
+    Gracias por cada momento hermoso a tu lado.  
+    Eres mi alegría y mi paz.
+
+    Te amo hoy y siempre ❤️
+  </div>
+
+</div>
+
+<script src="script.js"></script> <!-- Enlace al archivo JS -->
+
+</body>
+</html>
+
+
