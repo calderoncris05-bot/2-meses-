@@ -8,8 +8,12 @@ function iniciar() {
   inicio.style.display = "none";
   contenido.style.display = "block";
 
-  // CORRECCIÓN 1: Forzar la carga al iniciar
-  actualizarReproductor(); 
+  // Cargar y reproducir la primera canción al entrar
+  if (audio.paused) {
+    audio.src = canciones[indiceCancion].src;
+    audio.play().catch(error => console.log("El audio necesita interacción previa"));
+    album.style.animationPlayState = "running";
+  }
 }
 
 /* TIMER */
@@ -44,7 +48,7 @@ const durationTimeDisplay = document.getElementById("durationTime");
 
 function playPause() {
   if (audio.paused) {
-    audio.play().catch(e => console.log("Error al reproducir:", e));
+    audio.play();
     album.style.animationPlayState = "running";
   } else {
     audio.pause();
@@ -53,6 +57,7 @@ function playPause() {
 }
 
 audio.addEventListener("timeupdate", () => {
+  // Validación para evitar el error NaN en la consola
   if (!isNaN(audio.duration)) {
     barra.value = (audio.currentTime / audio.duration) * 100;
     let currentMinutes = Math.floor(audio.currentTime / 60);
@@ -66,16 +71,14 @@ audio.addEventListener("timeupdate", () => {
 });
 
 barra.addEventListener("input", () => {
-  if (!isNaN(audio.duration)) {
-    audio.currentTime = (barra.value / 100) * audio.duration;
-  }
+  audio.currentTime = (barra.value / 100) * audio.duration;
 });
 
 function formatTime(time) {
   return time < 10 ? `0${time}` : time;
 }
 
-/* LISTA DE CANCIONES 
+/* LISTA DE CANCIONES (Nombres simplificados para evitar errores) */
 const canciones = [
   { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
   { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
@@ -83,29 +86,16 @@ const canciones = [
   { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
   { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
   { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
-  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" },
+  { nombre: "Ed Sheeran - Photograph ", src: "music/fotografia.mp3" },
 ];
 
 let indiceCancion = 0;
 
-// CORRECCIÓN 2: Manejo robusto de la carga de audio
 function actualizarReproductor() {
-  audio.pause();
   audio.src = canciones[indiceCancion].src;
   document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
-  
-  audio.load(); // Fuerza al navegador a buscar el archivo nuevo
-
-  // Solo dar play cuando el archivo esté listo para evitar el error de "no supported sources"
-  audio.oncanplay = () => {
-    audio.play().catch(e => console.log("Esperando interacción..."));
-    album.style.animationPlayState = "running";
-  };
-
-  // CORRECCIÓN 3: Si hay error de ruta, avisar en consola
-  audio.onerror = () => {
-    console.error("No se pudo cargar: " + audio.src + ". Revisa si el nombre en GitHub es idéntico.");
-  };
+  audio.play();
+  album.style.animationPlayState = "running";
 }
 
 function cambiarCancionAdelante() {
@@ -165,6 +155,9 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
+
+
 
 
 
