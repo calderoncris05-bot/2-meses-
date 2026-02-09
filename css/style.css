@@ -5,7 +5,7 @@ body {
   overflow-x: hidden;
 }
 
-/* corazones */
+/* CORAZONES */
 .corazon-flotante {
   position: fixed;
   bottom: -20px;
@@ -26,6 +26,7 @@ body {
   justify-content: center;
   align-items: center;
   background: radial-gradient(circle, #ff5fa2, #12000a 70%);
+  flex-direction: column;
 }
 .corazon {
   font-size: 160px;
@@ -40,6 +41,7 @@ body {
   color: white;
   font-size: 1.6em;
   margin-top: 25px;
+  text-align: center;
 }
 
 /* CONTENIDO */
@@ -129,29 +131,103 @@ button {
   box-shadow: 0 5px 12px rgba(0, 0, 0, .4);
 }
 
-.cilindro img:nth-child(1) {
-  transform: rotateY(0deg) translateZ(200px);
-}
-.cilindro img:nth-child(2) {
-  transform: rotateY(60deg) translateZ(200px);
-}
-.cilindro img:nth-child(3) {
-  transform: rotateY(120deg) translateZ(200px);
-}
-.cilindro img:nth-child(4) {
-  transform: rotateY(180deg) translateZ(200px);
-}
-.cilindro img:nth-child(5) {
-  transform: rotateY(240deg) translateZ(200px);
-}
-.cilindro img:nth-child(6) {
-  transform: rotateY(300deg) translateZ(200px);
-}
+.cilindro img:nth-child(1) { transform: rotateY(0deg) translateZ(200px); }
+.cilindro img:nth-child(2) { transform: rotateY(60deg) translateZ(200px); }
+.cilindro img:nth-child(3) { transform: rotateY(120deg) translateZ(200px); }
+.cilindro img:nth-child(4) { transform: rotateY(180deg) translateZ(200px); }
+.cilindro img:nth-child(5) { transform: rotateY(240deg) translateZ(200px); }
+.cilindro img:nth-child(6) { transform: rotateY(300deg) translateZ(200px); }
 
 /* CARTA */
 .carta {
   line-height: 1.5;
   color: #a80046;
 }
+
+/* ===================== */
+/* RESPONSIVE MÓVIL       */
+/* ===================== */
+@media screen and (max-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+
+  /* INTRO */
+  #inicio {
+    flex-direction: column;
+    padding: 20px;
+  }
+  .corazon {
+    font-size: 100px;
+  }
+  .texto {
+    font-size: 1.2em;
+    margin-top: 15px;
+    text-align: center;
+  }
+
+  /* CONTENIDO */
+  #contenido {
+    padding: 15px;
+  }
+
+  /* CARD */
+  .card {
+    max-width: 90%;
+    padding: 15px;
+    margin: 20px auto;
+  }
+
+  /* GRID TIMER */
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .caja {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* MUSICA */
+  .album {
+    width: 100px;
+    height: 100px;
+  }
+  button {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
+
+  /* CILINDRO */
+  .escena {
+    perspective: 600px;
+  }
+  .cilindro {
+    width: 100px;
+    height: 130px;
+  }
+  .cilindro img {
+    width: 90px;
+    height: 120px;
+  }
+
+  /* CARTA */
+  .carta {
+    font-size: 14px;
+    line-height: 1.4;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .album {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+
 
 
