@@ -228,6 +228,21 @@ button {
   }
 }
 
+@media screen and (max-width: 480px) {
+  #inicio {
+    height: 120vh; /* un poco más alto para llenar la pantalla */
+  }
+  .corazon {
+    font-size: 140px; /* más grande en móviles */
+  }
+  .texto {
+    font-size: 1.5em; /* texto más visible */
+    margin-top: 20px;
+  }
+}
+
+
+
 
 
 
