@@ -2,8 +2,18 @@ const inicioFecha = new Date("2025-12-10");
 
 // Función para iniciar la visualización del contenido
 function iniciar() {
+  const inicio = document.getElementById("inicio");
+  const contenido = document.getElementById("contenido");
+  
   inicio.style.display = "none";
   contenido.style.display = "block";
+
+  // Cargar y reproducir la primera canción al entrar
+  if (audio.paused) {
+    audio.src = canciones[indiceCancion].src;
+    audio.play().catch(error => console.log("El audio necesita interacción previa"));
+    album.style.animationPlayState = "running";
+  }
 }
 
 /* TIMER */
@@ -47,27 +57,28 @@ function playPause() {
 }
 
 audio.addEventListener("timeupdate", () => {
-  barra.value = (audio.currentTime / audio.duration) * 100;
-  let currentMinutes = Math.floor(audio.currentTime / 60);
-  let currentSeconds = Math.floor(audio.currentTime % 60);
-  let durationMinutes = Math.floor(audio.duration / 60);
-  let durationSeconds = Math.floor(audio.duration % 60);
+  // Validación para evitar el error NaN en la consola
+  if (!isNaN(audio.duration)) {
+    barra.value = (audio.currentTime / audio.duration) * 100;
+    let currentMinutes = Math.floor(audio.currentTime / 60);
+    let currentSeconds = Math.floor(audio.currentTime % 60);
+    let durationMinutes = Math.floor(audio.duration / 60);
+    let durationSeconds = Math.floor(audio.duration % 60);
 
-  // Mostrar tiempo en formato MM:SS
-  currentTimeDisplay.textContent = `${formatTime(currentMinutes)}:${formatTime(currentSeconds)}`;
-  durationTimeDisplay.textContent = `${formatTime(durationMinutes)}:${formatTime(durationSeconds)}`;
+    currentTimeDisplay.textContent = `${formatTime(currentMinutes)}:${formatTime(currentSeconds)}`;
+    durationTimeDisplay.textContent = `${formatTime(durationMinutes)}:${formatTime(durationSeconds)}`;
+  }
 });
 
 barra.addEventListener("input", () => {
   audio.currentTime = (barra.value / 100) * audio.duration;
 });
 
-// Formateo de tiempo para mostrar siempre dos dígitos
 function formatTime(time) {
   return time < 10 ? `0${time}` : time;
 }
 
-/* Cambiar canción */
+/* LISTA DE CANCIONES (Rutas corregidas para tu carpeta music) */
 const canciones = [
   { nombre: "Reik - Pero Te Conocí", src: "music/Reik.mp3" },
   { nombre: "Eres Tú - Matisse, Reik", src: "music/Eres Tu.mp3" },
@@ -80,34 +91,26 @@ const canciones = [
 
 let indiceCancion = 0;
 
-function cambiarCancionAdelante() {
-  indiceCancion = (indiceCancion + 1) % canciones.length;
-
-  // Cambiar la fuente del audio y el nombre de la canción
+function actualizarReproductor() {
   audio.src = canciones[indiceCancion].src;
   document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
-
-  // Reproducir la nueva canción
   audio.play();
   album.style.animationPlayState = "running";
+}
+
+function cambiarCancionAdelante() {
+  indiceCancion = (indiceCancion + 1) % canciones.length;
+  actualizarReproductor();
 }
 
 function cambiarCancionAtras() {
   indiceCancion = (indiceCancion - 1 + canciones.length) % canciones.length;
-
-  // Cambiar la fuente del audio y el nombre de la canción
-  audio.src = canciones[indiceCancion].src;
-  document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
-
-  // Reproducir la nueva canción
-  audio.play();
-  album.style.animationPlayState = "running";
+  actualizarReproductor();
 }
 
+/* CONTROL DE CILINDRO FOTOS */
 let rot = 0, start = 0, drag = false;
 const cil = document.getElementById("cilindro");
-
-
 const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
 if (isTouchDevice) {
@@ -115,24 +118,19 @@ if (isTouchDevice) {
     drag = true;
     start = e.touches[0].clientX;
   });
-
   cil.addEventListener("touchmove", e => {
     if (!drag) return;
     rot += (e.touches[0].clientX - start) * 0.4;
     cil.style.transform = `rotateY(${rot}deg)`;
     start = e.touches[0].clientX;
   });
-
   document.addEventListener("touchend", () => drag = false);
-
 } else {
   cil.addEventListener("mousedown", e => {
     drag = true;
     start = e.clientX;
   });
-
   document.addEventListener("mouseup", () => drag = false);
-
   document.addEventListener("mousemove", e => {
     if (!drag) return;
     rot += (e.clientX - start) * 0.4;
@@ -141,7 +139,7 @@ if (isTouchDevice) {
   });
 }
 
-/* corazones */
+/* CORAZONES FLOTANTES */
 setInterval(() => {
   let c = document.createElement("div");
   c.className = "corazon-flotante";
@@ -157,6 +155,7 @@ function abrirCarta() {
   const carta = document.querySelector(".carta");
   carta.classList.toggle("open");
 }
+
 
 
 
