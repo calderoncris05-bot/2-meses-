@@ -1,102 +1,171 @@
 const inicioFecha = new Date("2025-12-10");
 
-/* ELEMENTOS DEL REPRODUCTOR */
+// Función para iniciar la visualización del contenido
+function iniciar() {
+  const inicio = document.getElementById("inicio");
+  const contenido = document.getElementById("contenido");
+  
+  inicio.style.display = "none";
+  contenido.style.display = "block";
+
+  // CORRECCIÓN 1: Forzar la carga al iniciar
+  actualizarReproductor(); 
+}
+
+/* TIMER */
+const y = document.getElementById("y"),
+      m = document.getElementById("m"),
+      d = document.getElementById("d"),
+      h = document.getElementById("h"),
+      min = document.getElementById("min"),
+      s = document.getElementById("s");
+
+setInterval(() => {
+  let diff = new Date() - inicioFecha;
+  let sec = Math.floor(diff / 1000);
+  let mi = Math.floor(sec / 60);
+  let ho = Math.floor(mi / 60);
+  let di = Math.floor(ho / 24);
+  y.textContent = Math.floor(di / 365);
+  di %= 365;
+  m.textContent = Math.floor(di / 30);
+  d.textContent = di % 30;
+  h.textContent = ho % 24;
+  min.textContent = mi % 60;
+  s.textContent = sec % 60;
+}, 1000);
+
+/* MUSICA REAL */
 const audio = document.getElementById("audio");
 const barra = document.getElementById("barra");
 const album = document.getElementById("album");
 const currentTimeDisplay = document.getElementById("currentTime");
 const durationTimeDisplay = document.getElementById("durationTime");
-const songNameDisplay = document.getElementById("songName");
 
-/* LISTA DE CANCIONES (Ruta relativa directa) */
+function playPause() {
+  if (audio.paused) {
+    audio.play().catch(e => console.log("Error al reproducir:", e));
+    album.style.animationPlayState = "running";
+  } else {
+    audio.pause();
+    album.style.animationPlayState = "paused";
+  }
+}
+
+audio.addEventListener("timeupdate", () => {
+  if (!isNaN(audio.duration)) {
+    barra.value = (audio.currentTime / audio.duration) * 100;
+    let currentMinutes = Math.floor(audio.currentTime / 60);
+    let currentSeconds = Math.floor(audio.currentTime % 60);
+    let durationMinutes = Math.floor(audio.duration / 60);
+    let durationSeconds = Math.floor(audio.duration % 60);
+
+    currentTimeDisplay.textContent = `${formatTime(currentMinutes)}:${formatTime(currentSeconds)}`;
+    durationTimeDisplay.textContent = `${formatTime(durationMinutes)}:${formatTime(durationSeconds)}`;
+  }
+});
+
+barra.addEventListener("input", () => {
+  if (!isNaN(audio.duration)) {
+    audio.currentTime = (barra.value / 100) * audio.duration;
+  }
+});
+
+function formatTime(time) {
+  return time < 10 ? `0${time}` : time;
+}
+
+/* LISTA DE CANCIONES 
 const canciones = [
-  { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
-  { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
-  { nombre: "Carlos Rivera - Solo Tú", src: "music/solo-tu.mp3" },
-  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
-  { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
-  { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
-  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" }
+  { nombre: "Reik - Pero Te Conocí", src: "music/reik.mp3" },
+  { nombre: "Eres Tú - Matisse, Reik", src: "music/eres-tu.mp3" },
+  { nombre: "Carlos Rivera - Solo Tú", src: "music/solo-tu.mp3" },
+  { nombre: "Luis Fonsi - Llegaste Tú", src: "music/llegaste-tu.mp3" },
+  { nombre: "Ed Sheeran - Perfect", src: "music/perfecto.mp3" },
+  { nombre: "Yung Kai - Blue", src: "music/azul.mp3" },
+  { nombre: "Ed Sheeran - Photograph", src: "music/fotografia.mp3" },
 ];
 
 let indiceCancion = 0;
 
-/* FUNCIONES PRINCIPALES */
+// CORRECCIÓN 2: Manejo robusto de la carga de audio
 function actualizarReproductor() {
-  if (!audio) return;
-  
-  audio.pause();
-  // El truco: Usar "./" asegura que busque dentro de la carpeta actual del proyecto
-  audio.src = "./" + canciones[indiceCancion].src;
-  songNameDisplay.textContent = canciones[indiceCancion].nombre;
-  
-  audio.load();
-  
-  // Intentar reproducir automáticamente tras cargar
-  audio.oncanplay = () => {
-    audio.play().catch(() => console.log("Clic para sonar..."));
-    album.style.animationPlayState = "running";
-  };
-}
+  audio.pause();
+  audio.src = canciones[indiceCancion].src;
+  document.getElementById("songName").textContent = canciones[indiceCancion].nombre;
+  
+  audio.load(); // Fuerza al navegador a buscar el archivo nuevo
 
-function iniciar() {
-  document.getElementById("inicio").style.display = "none";
-  document.getElementById("contenido").style.display = "block";
-  actualizarReproductor();
-}
+  // Solo dar play cuando el archivo esté listo para evitar el error de "no supported sources"
+  audio.oncanplay = () => {
+    audio.play().catch(e => console.log("Esperando interacción..."));
+    album.style.animationPlayState = "running";
+  };
 
-function playPause() {
-  if (audio.paused) {
-    audio.play();
-    album.style.animationPlayState = "running";
-  } else {
-    audio.pause();
-    album.style.animationPlayState = "paused";
-  }
+  // CORRECCIÓN 3: Si hay error de ruta, avisar en consola
+  audio.onerror = () => {
+    console.error("No se pudo cargar: " + audio.src + ". Revisa si el nombre en GitHub es idéntico.");
+  };
 }
 
 function cambiarCancionAdelante() {
-  indiceCancion = (indiceCancion + 1) % canciones.length;
-  actualizarReproductor();
+  indiceCancion = (indiceCancion + 1) % canciones.length;
+  actualizarReproductor();
 }
 
 function cambiarCancionAtras() {
-  indiceCancion = (indiceCancion - 1 + canciones.length) % canciones.length;
-  actualizarReproductor();
+  indiceCancion = (indiceCancion - 1 + canciones.length) % canciones.length;
+  actualizarReproductor();
 }
 
-/* ACTUALIZACIÓN DE BARRA Y TIEMPO */
-audio.addEventListener("timeupdate", () => {
-  if (!isNaN(audio.duration)) {
-    barra.value = (audio.currentTime / audio.duration) * 100;
-    let curM = Math.floor(audio.currentTime / 60);
-    let curS = Math.floor(audio.currentTime % 60);
-    let durM = Math.floor(audio.duration / 60);
-    let durS = Math.floor(audio.duration % 60);
-    currentTimeDisplay.textContent = `${curM}:${curS < 10 ? '0' + curS : curS}`;
-    durationTimeDisplay.textContent = `${durM}:${durS < 10 ? '0' + durS : durS}`;
-  }
-});
+/* CONTROL DE CILINDRO FOTOS */
+let rot = 0, start = 0, drag = false;
+const cil = document.getElementById("cilindro");
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
-barra.addEventListener("input", () => {
-  audio.currentTime = (barra.value / 100) * audio.duration;
-});
+if (isTouchDevice) {
+  cil.addEventListener("touchstart", e => {
+    drag = true;
+    start = e.touches[0].clientX;
+  });
+  cil.addEventListener("touchmove", e => {
+    if (!drag) return;
+    rot += (e.touches[0].clientX - start) * 0.4;
+    cil.style.transform = `rotateY(${rot}deg)`;
+    start = e.touches[0].clientX;
+  });
+  document.addEventListener("touchend", () => drag = false);
+} else {
+  cil.addEventListener("mousedown", e => {
+    drag = true;
+    start = e.clientX;
+  });
+  document.addEventListener("mouseup", () => drag = false);
+  document.addEventListener("mousemove", e => {
+    if (!drag) return;
+    rot += (e.clientX - start) * 0.4;
+    cil.style.transform = `rotateY(${rot}deg)`;
+    start = e.clientX;
+  });
+}
 
-/* CONTADOR DE TIEMPO (ANIVERSARIO) */
+/* CORAZONES FLOTANTES */
 setInterval(() => {
-  let diff = new Date() - inicioFecha;
-  let sec = Math.floor(diff / 1000);
-  document.getElementById("y").textContent = Math.floor(sec / (3600 * 24 * 365));
-  document.getElementById("d").textContent = Math.floor((sec / (3600 * 24)) % 365);
-  document.getElementById("h").textContent = Math.floor((sec / 3600) % 24);
-  document.getElementById("min").textContent = Math.floor((sec / 60) % 60);
-  document.getElementById("s").textContent = sec % 60;
-}, 1000);
+  let c = document.createElement("div");
+  c.className = "corazon-flotante";
+  c.innerHTML = "❤️";
+  c.style.left = Math.random() * 100 + "vw";
+  c.style.fontSize = 15 + Math.random() * 25 + "px";
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 6000);
+}, 400);
 
 /* CARTA */
 function abrirCarta() {
-  document.querySelector(".carta").classList.toggle("open");
+  const carta = document.querySelector(".carta");
+  carta.classList.toggle("open");
 }
+
 
 
 
